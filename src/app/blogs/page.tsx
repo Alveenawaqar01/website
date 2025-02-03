@@ -1,15 +1,14 @@
 import React from 'react'
 import Bloghome from '../components/bloghome'
 import Blogcard from '../components/blogcard'
-import Footer from '../components/footer'
+import BlogCard2 from '../components/blogscard2'
 
 const page = () => {
   return (
     <div>
       <Bloghome/>
       <Blogcard/>
-      <Blogcard/>
-      <Footer/>
+      <BlogCard2/>
     </div>
   )
 }

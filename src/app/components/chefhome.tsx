@@ -10,7 +10,7 @@ const check= () => {
             <ul className="space-y-4">
               <li className="text-xl flex justify-center items-center font-extrabold">
                Home <span className="text-yellow-500 ml-2"><IoIosArrowForward /></span> 
-               <Link href = "/signout">signout</Link>
+               <Link href = "/shop">shop</Link>
               </li>
             </ul>
           </div>

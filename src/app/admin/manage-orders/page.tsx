@@ -1,49 +1,24 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Trash2 } from "lucide-react";
-import { useCartStore } from "../../../../store/cardstore";
-
-// Define Order Types
-interface OrderItem {
-  name: string;
-}
-
-interface CustomerDetails {
-  name: string;
-}
-
-interface Order {
-  id: string;
-  items: OrderItem[];
-  customerDetails: CustomerDetails;
-  date: string | Date;
-  total: number;
-  status: "Pending" | "Processing" | "Shipped" | "Delivered";
-}
-
-// Define function types for store actions
-interface CartStore {
-  orders: Order[];
-  updateOrderStatus: (orderId: string, newStatus: Order["status"]) => void;
-  removeOrder: (orderId: string) => void;
-}
+import { useState } from "react"
+import { Trash2 } from "lucide-react"
+import { useCartStore } from "../../../../store/cardstore"
 
 export default function ManageOrders() {
-  const { orders, updateOrderStatus, removeOrder } = useCartStore() as CartStore;
-  const [deletingOrder, setDeletingOrder] = useState<string | null>(null);
+  const { orders, updateOrderStatus, removeOrder } = useCartStore()
+  const [deletingOrder, setDeletingOrder] = useState<string | null>(null)
 
-  const handleStatusChange = (orderId: string, newStatus: Order["status"]) => {
-    updateOrderStatus(orderId, newStatus);
-  };
+  const handleStatusChange = (orderId: string, newStatus: "Pending" | "Processing" | "Shipped" | "Delivered") => {
+    updateOrderStatus(orderId, newStatus)
+  }
 
   const handleDeleteOrder = (orderId: string) => {
-    setDeletingOrder(orderId);
+    setDeletingOrder(orderId)
     if (confirm("Are you sure you want to delete this order?")) {
-      removeOrder(orderId);
+      removeOrder(orderId)
     }
-    setDeletingOrder(null);
-  };
+    setDeletingOrder(null)
+  }
 
   return (
     <div>
@@ -55,9 +30,6 @@ export default function ManageOrders() {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Order ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Order Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Customer
@@ -78,18 +50,15 @@ export default function ManageOrders() {
               {orders.map((order) => (
                 <tr key={order.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.items.map((item) => item.name).join(", ")}
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.customerDetails.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.date ? new Date(order.date).toLocaleDateString() : "N/A"}
+                    {new Date(order.date).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.total.toFixed(2)}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={order.status}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value as Order["status"])}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value as any)}
                       className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                       <option value="Pending">Pending</option>
@@ -120,8 +89,9 @@ export default function ManageOrders() {
           </table>
         </div>
       ) : (
-        <p className="text-gray-500">No orders have been placed yet</p>
+        <p className="text-gray-500">No orders have been placed yet.</p>
       )}
     </div>
-  );
+  )
 }
+

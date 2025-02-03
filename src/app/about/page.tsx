@@ -1,16 +1,17 @@
 
 import About from '@/app/components/about'
-import Footer from '@/app/components/footer'
 import Homepage from '@/app/components/homepage'
 import React from 'react'
+import Aboutcart from '../components/aboutcart'
 
 
 const about = () => {
   return (
     <div>
+<Aboutcart/>
         <Homepage/>
       <About/>
-      <Footer/>
+      
       
     </div>
   )

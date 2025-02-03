@@ -1,46 +1,45 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Star, Facebook, Twitter, Instagram, LinkIcon, Minus, Plus } from "lucide-react";
-import AddToCartButton from "@/app/components/addtocartbutton";
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Star, Facebook, Twitter, Instagram, LinkIcon, Minus, Plus } from "lucide-react"
+import AddToCartButton from "@/app/components/addtocartbutton"
 
 interface ProductDetailsProps {
   product: {
-    _id: string;
-    name: string;
-    price: number;
-    description: string;
-    mainImage: string;
-    additionalImages: string[];
+    _id: string
+    name: string
+    price: number
+    description: string
+    mainImage: string
+    additionalImages: string[]
     category: {
-      name: string;
-      slug: {
-        current: string;
-      };
-    };
-    rating: number;
-    reviews: number;
-  };
+      name: string
+      slug: string
+    }
+    rating: number
+    reviews: number
+    slug: string
+  }
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [selectedImage, setSelectedImage] = useState(product.mainImage);
-  const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(product.mainImage)
+  const [quantity, setQuantity] = useState(1)
 
-  const allImages = [product.mainImage, ...(product.additionalImages || [])];
+  const allImages = [product.mainImage, ...(product.additionalImages || [])]
 
   const handleQuantityChange = (type: "increase" | "decrease") => {
     if (type === "increase") {
-      setQuantity((prev) => prev + 1);
+      setQuantity((prev) => prev + 1)
     } else if (type === "decrease" && quantity > 1) {
-      setQuantity((prev) => prev - 1);
+      setQuantity((prev) => prev - 1)
     }
-  };
+  }
 
   return (
-    <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Thumbnail Gallery */}
         <div className="lg:w-24 flex lg:flex-col gap-4 order-2 lg:order-1">
@@ -63,7 +62,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         </div>
 
         {/* Main Image */}
-        <div className="relative w-full lg:w-2/3 h-[500px] lg:h-[700px] order-1 lg:order-2">
+        <div className="relative w-full lg:w-2/3 h-[400px] lg:h-[600px] order-1 lg:order-2">
           <Image
             src={selectedImage || "/placeholder.svg"}
             alt={product.name}
@@ -74,8 +73,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         </div>
 
         {/* Product Details */}
-        <div className="lg:w-1/3 order-3">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="lg:w-1/3 order-3 ">
+          <div className="bg-white p-6 rounded-lg shadow-sm ">
             <span className="inline-block px-3 py-1 bg-orange-100 text-orange-500 rounded-full text-sm font-medium mb-4">
               Featured
             </span>
@@ -112,11 +111,19 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 </button>
               </div>
             </div>
-            <AddToCartButton product={{ ...product, quantity }} />
+            <AddToCartButton
+              product={{
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                slug: product.slug,
+                mainImage: { asset: { url: product.mainImage } },
+              }}
+            />
             <div className="mt-6">
               <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                 <span>Category:</span>
-                <Link href={`/category/${product.category?.slug.current}`} className="text-blue-500 hover:underline">
+                <Link href={`/category/${product.category?.slug}`} className="text-blue-500 hover:underline">
                   {product.category?.name}
                 </Link>
               </div>
@@ -142,5 +149,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
+

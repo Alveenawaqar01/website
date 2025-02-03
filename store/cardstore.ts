@@ -6,6 +6,8 @@ export interface CartItem {
   name: string
   price: number
   quantity: number
+  slug: string
+  image: string
 }
 
 interface CustomerDetails {
@@ -13,6 +15,8 @@ interface CustomerDetails {
   email: string
   phone: string
   address: string
+  paymentMethod: string
+  paymentAccount?: string
 }
 
 export interface Order {
@@ -42,15 +46,15 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       orders: [],
-      addItem: (item) =>
+      addItem: (item: CartItem) =>
         set((state) => {
           const existingItem = state.items.find((i) => i._id === item._id)
           if (existingItem) {
             return {
-              items: state.items.map((i) => (i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i)),
+              items: state.items.map((i) => (i._id === item._id ? { ...i, quantity: i.quantity + item.quantity } : i)),
             }
           }
-          return { items: [...state.items, { ...item, quantity: 1 }] }
+          return { items: [...state.items, { ...item, image: item.image }] }
         }),
       removeItem: (id) =>
         set((state) => ({
@@ -85,7 +89,7 @@ export const useCartStore = create<CartStore>()(
         set((state) => ({
           orders: state.orders.map((order) => (order.id === orderId ? { ...order, status } : order)),
         })),
-      removeOrder: (orderId) =>
+      removeOrder: (orderId: string) =>
         set((state) => ({
           orders: state.orders.filter((order) => order.id !== orderId),
         })),

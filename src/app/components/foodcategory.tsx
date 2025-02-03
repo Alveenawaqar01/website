@@ -1,11 +1,12 @@
+import Link from "next/link";
 import React from "react";
 
 const FoodItem = () => {
   return (
-    <div className="p-8 bg-white min-h-[60vh] flex flex-col justify-center">
+    <div className="p-8 bg-black min-h-[60vh] flex flex-col justify-center">
       {/* Main heading for the food items */}
-      <h1 className="text-black text-center text-3xl mb-4 font-serif">Food Category</h1>
-      <h2 className="text-green-800 text-center text-4xl sm:text-6xl mb-8 font-extrabold">Choose Food Items</h2>
+      <h1 className="text-white text-center text-3xl mb-4 font-serif">Food Category</h1>
+      <h2 className="text-yellow-500 text-center text-4xl sm:text-6xl mb-8 font-extrabold">Choose Food Items</h2>
 
       {/* Grid for the food items */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -27,6 +28,12 @@ const FoodItem = () => {
             />
           </div>
         ))}
+      </div>
+
+      {/* See All Menu Link */}
+      <div className="mt-8 text-center">
+       <Link href = "/menu" className="inline-block bg-yellow-500 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-yellow-600 transition-colors duration-300"
+       >  See All Menu </Link>
       </div>
     </div>
   );
