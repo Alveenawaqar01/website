@@ -12,7 +12,7 @@ interface ProductDetailsProps {
     name: string;
     price: number;
     description: string;
-    mainImage: string;  // Ensure that mainImage is defined here as a string
+    mainImage: { asset: { url: string } };  // Updated to reflect mainImage as an object
     additionalImages: string[];
     category: {
       name: string;
@@ -25,10 +25,13 @@ interface ProductDetailsProps {
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [selectedImage, setSelectedImage] = useState(product.mainImage);
+  const [selectedImage, setSelectedImage] = useState(product.mainImage.asset.url);  // Adjust for nested structure
   const [quantity, setQuantity] = useState(1);
 
-  const allImages = [product.mainImage, ...(product.additionalImages || [])];
+  const allImages = [
+    product.mainImage.asset.url,  // Adjusted for nested structure
+    ...(product.additionalImages || []),
+  ];
 
   const handleQuantityChange = (type: "increase" | "decrease") => {
     if (type === "increase") {
@@ -120,7 +123,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 name: product.name,
                 price: product.price,
                 slug: product.slug,
-                image: product.mainImage, // Pass mainImage as image
+                image: product.mainImage.asset.url,  // Use the nested URL here
               }}
             />
             <div className="mt-6">

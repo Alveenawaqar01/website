@@ -9,7 +9,7 @@ interface Product {
   price: number;
   description: string;
   slug: string;
-  mainImage: string;
+  mainImage: { asset: { url: string } };  // Expecting an object with URL, not just a string
   additionalImages: string[];
   category: {
     name: string;
@@ -28,7 +28,7 @@ async function getProduct(slug: string): Promise<Product | null> {
         price,
         description,
         "slug": slug.current,
-        "mainImage": mainImage.asset->url,
+        "mainImage": { asset: { url: mainImage.asset->url } },  // Changed to wrap the image URL in an object
         "additionalImages": additionalImages[].asset->url,
         category->{
           name,
@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
   // Transform the image data for the client component
   const transformedProduct: Product = {
     ...product,
-    mainImage: product.mainImage || "/placeholder.svg", // Default to placeholder if mainImage is missing
+    mainImage: product.mainImage || { asset: { url: "/placeholder.svg" } },  // Default to placeholder if mainImage is missing
     additionalImages: product.additionalImages || [],  // Default to empty array if additionalImages is missing
     slug: product.slug || "", // Ensure slug is not undefined or null
   };
