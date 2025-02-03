@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { ChevronLeft, CheckCircle } from "lucide-react";
-import Link from "next/link";
+import { CheckCircle } from "lucide-react";
 import { useCartStore } from "../../../store/cardstore";
 
 interface CustomerDetails {
@@ -56,7 +55,6 @@ const CheckoutPage = () => {
 
   const subtotal = getTotalPrice();
   const tax = subtotal * 0.1; // 10% tax
-  const total = subtotal + tax;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
