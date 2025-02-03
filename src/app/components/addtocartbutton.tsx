@@ -3,31 +3,34 @@
 import { toast } from "react-hot-toast";
 import { useCartStore } from "../../../store/cardstore";
 
+// Define Product type, allowing the 'image' property to be a string.
 interface Product {
   _id: string;
   name: string;
   price: number;
   quantity?: number;
   slug?: string | { current: string };
-  image?: string;  // Allow image to be a string here
+  image?: string;  // 'image' property can be a string, which will hold the image URL
 }
 
 export default function AddToCartButton({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
 
+  // Function to handle adding the product to the cart
   const handleAddToCart = () => {
     addItem({
       _id: product._id,
       name: product.name,
       price: product.price,
-      quantity: product.quantity || 1,
+      quantity: product.quantity || 1,  // Default quantity to 1 if not provided
       slug: typeof product.slug === "string" ? product.slug : product.slug?.current || "",
-      image: product.image || "/placeholder.png",  // Use the 'image' here which is passed as 'mainImage'
+      image: product.image || "/placeholder.png",  // Use the passed 'image', if not present use the placeholder image
     });
 
+    // Display success message using toast notification
     toast.success(`Added ${product.name} to cart!`, {
-      duration: 2000,
-      position: "bottom-right",
+      duration: 2000,  // Show for 2 seconds
+      position: "bottom-right",  // Position of the toast message
     });
   };
 

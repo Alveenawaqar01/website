@@ -85,7 +85,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   <Star
                     key={index}
                     className={`w-5 h-5 ${
-                      index < Math.floor(product.rating)
+                      index < Math.round(product.rating)
                         ? "text-yellow-400 fill-current"
                         : "text-gray-300"
                     }`}
@@ -154,3 +154,4 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     </div>
   );
 }
+
