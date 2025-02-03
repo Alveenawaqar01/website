@@ -12,7 +12,7 @@ interface ProductDetailsProps {
     name: string;
     price: number;
     description: string;
-    mainImage: { asset: { url: string } };  // Updated to reflect mainImage as an object
+    mainImage: { asset: { url: string } }; // Updated to reflect mainImage as an object
     additionalImages: string[];
     category: {
       name: string;
@@ -25,11 +25,11 @@ interface ProductDetailsProps {
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [selectedImage, setSelectedImage] = useState(product.mainImage.asset.url);  // Adjust for nested structure
+  const [selectedImage, setSelectedImage] = useState<string>(product.mainImage?.asset?.url || ""); // Adjust for null/undefined
   const [quantity, setQuantity] = useState(1);
 
   const allImages = [
-    product.mainImage.asset.url,  // Adjusted for nested structure
+    product.mainImage?.asset?.url || "",  // Adjusted for nested structure with fallback
     ...(product.additionalImages || []),
   ];
 
@@ -123,7 +123,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 name: product.name,
                 price: product.price,
                 slug: product.slug,
-                image: product.mainImage.asset.url,  // Use the nested URL here
+                image: product.mainImage?.asset?.url || "",  // Safely access the URL
               }}
             />
             <div className="mt-6">
