@@ -55,6 +55,7 @@ const CheckoutPage = () => {
 
   const subtotal = getTotalPrice();
   const tax = subtotal * 0.1; // 10% tax
+  const total = subtotal + tax; // Adding tax to total price
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,9 +114,17 @@ const CheckoutPage = () => {
               </div>
 
               <div className="pt-4 border-t">
+                <div className="flex justify-between text-sm font-semibold">
+                  <span>Subtotal:</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm font-semibold">
+                  <span>Tax (10%):</span>
+                  <span>${tax.toFixed(2)}</span>
+                </div>
                 <div className="flex justify-between font-semibold">
                   <span>Total:</span>
-                  <span>${orderDetails?.total.toFixed(2)}</span>
+                  <span>${total.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -130,6 +139,27 @@ const CheckoutPage = () => {
         ) : (
           <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form and Order Summary Components */}
+            <div>
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange} // Using the input change handler here
+                className="form-input"
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange} // Same for other fields
+                className="form-input"
+              />
+            </div>
+            {/* Other fields go here */}
           </form>
         )}
       </div>
