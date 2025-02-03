@@ -7,24 +7,36 @@ import Link from "next/link"
 import { client } from "@/sanity/lib/client"
 import { useCartStore } from "../../../store/cardstore"
 import { urlFor } from "@/sanity/lib/image"
+import { SanityImageSource } from "@sanity/image-url/lib/types/types"
 
 interface Product {
   _id: string
   name: string
   price: number
   slug: { current: string }
-  mainImage: any
+  mainImage: SanityImageSource
+}
+
+interface CartItem {
+  _id: string
+  name: string
+  price: number
+  quantity: number
+  slug: string
+  image: string
 }
 
 export default function CartSearch() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [cartResults, setCartResults] = useState<any[]>([])
-  const [productResults, setProductResults] = useState<Product[]>([])
+  const [cartResults, setCartResults] = useState<CartItem[]>([]) // Use CartItem type
+  const [productResults, setProductResults] = useState<Product[]>([]) // Use Product type
   const { items } = useCartStore()
 
   useEffect(() => {
     if (searchTerm.length > 0) {
-      const cartItems = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      const cartItems = items.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       setCartResults(cartItems)
 
       // Fetch product suggestions from Sanity
@@ -115,4 +127,3 @@ export default function CartSearch() {
     </div>
   )
 }
-

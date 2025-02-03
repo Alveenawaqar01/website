@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 import { useCartStore } from "../../../store/cardstore"
 
 const CartPage = () => {
-  const { items, removeItem, clearCart, getTotalPrice, addItem } = useCartStore()
+  const { items, removeItem, clearCart, addItem } = useCartStore()
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [mounted, setMounted] = useState(false)
 
@@ -34,14 +34,14 @@ const CartPage = () => {
   }
 
   if (!mounted) {
-    return null // or a loading spinner
+    return null
   }
 
   if (items.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold mb-8">Your Cart is Empty</h1>
-        <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet.</p>
+        <p className="text-gray-600 mb-8">Looks like you haven&apos;t added any items to your cart yet</p>
         <Link
           href="/"
           className="inline-block bg-blue-500 text-white px-8 py-3 rounded-md hover:bg-blue-600 transition-colors"
@@ -155,5 +155,4 @@ const CartPage = () => {
   )
 }
 
-export default CartPage
-
+export default CartPage;

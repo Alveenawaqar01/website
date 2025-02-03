@@ -1,24 +1,45 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Trash2 } from "lucide-react"
-import { useCartStore } from "../../../../store/cardstore"
+import { useState } from "react";
+import { Trash2 } from "lucide-react";
+import { useCartStore } from "../../../../store/cardstore";
+
+interface CustomerDetails {
+  name: string;
+  email?: string;
+}
+
+interface Order {
+  id: string;
+  customerDetails: CustomerDetails;
+  date: string;
+  total: number;
+  status: "Pending" | "Processing" | "Shipped" | "Delivered";
+}
 
 export default function ManageOrders() {
-  const { orders, updateOrderStatus, removeOrder } = useCartStore()
-  const [deletingOrder, setDeletingOrder] = useState<string | null>(null)
+  const { orders, updateOrderStatus, removeOrder } = useCartStore() as {
+    orders: Order[];
+    updateOrderStatus: (id: string, status: Order["status"]) => void;
+    removeOrder: (id: string) => void;
+  };
 
-  const handleStatusChange = (orderId: string, newStatus: "Pending" | "Processing" | "Shipped" | "Delivered") => {
-    updateOrderStatus(orderId, newStatus)
-  }
+  const [deletingOrder, setDeletingOrder] = useState<string | null>(null);
+
+  const handleStatusChange = (
+    orderId: string,
+    newStatus: "Pending" | "Processing" | "Shipped" | "Delivered"
+  ) => {
+    updateOrderStatus(orderId, newStatus);
+  };
 
   const handleDeleteOrder = (orderId: string) => {
-    setDeletingOrder(orderId)
+    setDeletingOrder(orderId);
     if (confirm("Are you sure you want to delete this order?")) {
-      removeOrder(orderId)
+      removeOrder(orderId);
     }
-    setDeletingOrder(null)
-  }
+    setDeletingOrder(null);
+  };
 
   return (
     <div>
@@ -34,7 +55,9 @@ export default function ManageOrders() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Total
                 </th>
@@ -47,18 +70,29 @@ export default function ManageOrders() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {orders.map((order) => (
+              {orders.map((order: Order) => (
                 <tr key={order.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.customerDetails.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {order.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {order.customerDetails.name}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(order.date).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.total.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${order.total.toFixed(2)}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={order.status}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value as any)}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                        handleStatusChange(
+                          order.id,
+                          e.target.value as "Pending" | "Processing" | "Shipped" | "Delivered"
+                        )
+                      }
                       className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                       <option value="Pending">Pending</option>
@@ -89,9 +123,8 @@ export default function ManageOrders() {
           </table>
         </div>
       ) : (
-        <p className="text-gray-500">No orders have been placed yet.</p>
+        <p className="text-gray-500">No orders have been placed yet</p>
       )}
     </div>
-  )
+  );
 }
-
