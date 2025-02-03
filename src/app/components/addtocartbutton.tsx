@@ -1,3 +1,5 @@
+"use client";
+
 import { toast } from "react-hot-toast";
 import { useCartStore } from "../../../store/cardstore";
 
@@ -8,7 +10,7 @@ interface Product {
   price: number;
   quantity?: number;
   slug?: string | { current: string };
-  image?: string;  // 'image' property can be a string, which will hold the image URL
+  image: string;  // 'image' property is required here
 }
 
 export default function AddToCartButton({ product }: { product: Product }) {
@@ -22,7 +24,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
       price: product.price,
       quantity: product.quantity || 1,  // Default quantity to 1 if not provided
       slug: typeof product.slug === "string" ? product.slug : product.slug?.current || "",
-      image: product.image || "/placeholder.png",  // Use the passed 'image', if not present use the placeholder image
+      image: product.image || "/placeholder.png",  // Ensure image is passed as a string
     });
 
     // Display success message using toast notification

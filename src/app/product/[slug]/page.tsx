@@ -1,22 +1,22 @@
-import { Suspense } from "react"
-import { notFound } from "next/navigation"
-import { client } from "@/sanity/lib/client"
-import ProductDetails from "./ProductDetail"
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { client } from "@/sanity/lib/client";
+import ProductDetails from "./ProductDetail";
 
 interface Product {
-  _id: string
-  name: string
-  price: number
-  description: string
-  slug: string
-  mainImage: string
-  additionalImages: string[]
+  _id: string;
+  name: string;
+  price: number;
+  description: string;
+  slug: string;
+  mainImage: string;
+  additionalImages: string[];
   category: {
-    name: string
-    slug: string
-  }
-  rating: number
-  reviews: number
+    name: string;
+    slug: string;
+  };
+  rating: number;
+  reviews: number;
 }
 
 async function getProduct(slug: string): Promise<Product | null> {
@@ -37,39 +37,38 @@ async function getProduct(slug: string): Promise<Product | null> {
         rating,
         reviews
       }`,
-      { slug },
-    )
+      { slug }
+    );
 
     if (!product) {
-      return null
+      return null;
     }
 
-    return product
+    return product;
   } catch (error) {
-    console.error("Error fetching product:", error)
-    return null
+    console.error("Error fetching product:", error);
+    return null;
   }
 }
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const product = await getProduct(params.slug)
+  const product = await getProduct(params.slug);
 
   if (!product) {
-    notFound()
+    notFound();
   }
 
   // Transform the image data for the client component
   const transformedProduct: Product = {
     ...product,
-    mainImage: product.mainImage || "/placeholder.svg",
-    additionalImages: product.additionalImages || [],
-    slug: product.slug, // Ensure slug is included in the transformed product
-  }
+    mainImage: product.mainImage || "/placeholder.svg", // Default to placeholder if mainImage is missing
+    additionalImages: product.additionalImages || [],  // Default to empty array if additionalImages is missing
+    slug: product.slug || "", // Ensure slug is not undefined or null
+  };
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ProductDetails product={transformedProduct} />
     </Suspense>
-  )
+  );
 }
-

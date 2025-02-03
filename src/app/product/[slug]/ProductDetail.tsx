@@ -12,7 +12,7 @@ interface ProductDetailsProps {
     name: string;
     price: number;
     description: string;
-    mainImage: string;
+    mainImage: string;  // Ensure that mainImage is defined here as a string
     additionalImages: string[];
     category: {
       name: string;
