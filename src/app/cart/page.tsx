@@ -1,5 +1,6 @@
 "use client"
 
+
 import Link from "next/link"
 import Image from "next/image"
 import { Star, X, Minus, Plus } from "lucide-react"
@@ -41,7 +42,7 @@ const CartPage = () => {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold mb-8">Your Cart is Empty</h1>
-        <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet.</p>
+        <p className="text-gray-600 mb-8">Looks like you havent added any items to your cart yet</p>
         <Link
           href="/"
           className="inline-block bg-blue-500 text-white px-8 py-3 rounded-md hover:bg-blue-600 transition-colors"

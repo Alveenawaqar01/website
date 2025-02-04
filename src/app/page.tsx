@@ -9,7 +9,7 @@ import Footer from './components/footer'
 import Blog from './components/blog'
 import Blogtitle from './components/blogtitle'
 import Navbar from './components/Navbar'
-import FoodCards from './components/FoodCard'
+
 
 
 const page = () => {
@@ -21,7 +21,6 @@ const page = () => {
       <Foodcategory/>
       <Ordinary/>
       <Chef/>
-      <FoodCards/>
       <Icons/>
       <Blogtitle/>
       <Blog/>
