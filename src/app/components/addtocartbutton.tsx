@@ -1,38 +1,34 @@
-"use client";
+"use client"
 
-import { toast } from "react-hot-toast";
-import { useCartStore } from "../../../store/cardstore";
+import { toast } from "react-hot-toast"
+import { useCartStore } from "../../../store/cardstore"
 
-// Define Product type, allowing the 'image' property to be a string.
 interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  quantity?: number;
-  slug?: string | { current: string };
-  image: string;  // 'image' property is required here
+  _id: string
+  name: string
+  price: number
+  quantity?: number
+  slug?: string | { current: string }
+  image?: string
 }
 
 export default function AddToCartButton({ product }: { product: Product }) {
-  const addItem = useCartStore((state) => state.addItem);
+  const addItem = useCartStore((state) => state.addItem)
 
-  // Function to handle adding the product to the cart
   const handleAddToCart = () => {
     addItem({
       _id: product._id,
       name: product.name,
       price: product.price,
-      quantity: product.quantity || 1,  // Default quantity to 1 if not provided
+      quantity: product.quantity || 1,
       slug: typeof product.slug === "string" ? product.slug : product.slug?.current || "",
-      image: product.image || "/placeholder.png",  // Ensure image is passed as a string
-    });
-
-    // Display success message using toast notification
+      image: product.image || "/placeholder.png",
+    })
     toast.success(`Added ${product.name} to cart!`, {
-      duration: 2000,  // Show for 2 seconds
-      position: "bottom-right",  // Position of the toast message
-    });
-  };
+      duration: 2000,
+      position: "bottom-right",
+    })
+  }
 
   return (
     <button
@@ -41,5 +37,6 @@ export default function AddToCartButton({ product }: { product: Product }) {
     >
       Add to Cart
     </button>
-  );
+  )
 }
+

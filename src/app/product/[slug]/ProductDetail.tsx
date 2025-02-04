@@ -1,45 +1,44 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Star, Facebook, Twitter, Instagram, LinkIcon, Minus, Plus } from "lucide-react";
-import AddToCartButton from "@/app/components/addtocartbutton";
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Star, Facebook, Twitter, Instagram, LinkIcon, Minus, Plus } from "lucide-react"
+import AddToCartButton from "@/app/components/addtocartbutton"
+
 
 interface ProductDetailsProps {
   product: {
-    _id: string;
-    name: string;
-    price: number;
-    description: string;
-    mainImage: { asset: { url: string } }; // Updated to reflect mainImage as an object
-    additionalImages: string[];
+    _id: string
+    name: string
+    price: number
+    description: string
+    mainImage: string
+    additionalImages: string[]
     category: {
-      name: string;
-      slug: string;
-    };
-    rating: number;
-    reviews: number;
-    slug: string;
-  };
+      name: string
+      slug: {
+        current: string
+      }
+    }
+    rating: number
+    reviews: number
+  }
 }
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [selectedImage, setSelectedImage] = useState<string>(product.mainImage?.asset?.url || ""); // Adjust for null/undefined
-  const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(product.mainImage)
+  const [quantity, setQuantity] = useState(1)
 
-  const allImages = [
-    product.mainImage?.asset?.url || "",  // Adjusted for nested structure with fallback
-    ...(product.additionalImages || []),
-  ];
+  const allImages = [product.mainImage, ...(product.additionalImages || [])]
 
   const handleQuantityChange = (type: "increase" | "decrease") => {
     if (type === "increase") {
-      setQuantity((prev) => prev + 1);
+      setQuantity((prev) => prev + 1)
     } else if (type === "decrease" && quantity > 1) {
-      setQuantity((prev) => prev - 1);
+      setQuantity((prev) => prev - 1)
     }
-  };
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -88,9 +87,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   <Star
                     key={index}
                     className={`w-5 h-5 ${
-                      index < Math.round(product.rating)
-                        ? "text-yellow-400 fill-current"
-                        : "text-gray-300"
+                      index < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
                     }`}
                   />
                 ))}
@@ -116,20 +113,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 </button>
               </div>
             </div>
-            {/* AddToCartButton */}
-            <AddToCartButton
-              product={{
-                _id: product._id,
-                name: product.name,
-                price: product.price,
-                slug: product.slug,
-                image: product.mainImage?.asset?.url || "",  // Safely access the URL
-              }}
-            />
+            <AddToCartButton product={{ ...product, quantity }} />
             <div className="mt-6">
               <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                 <span>Category:</span>
-                <Link href={`/category/${product.category?.slug}`} className="text-blue-500 hover:underline">
+                <Link href={`/category/${product.category?.slug.current}`} className="text-blue-500 hover:underline">
                   {product.category?.name}
                 </Link>
               </div>
@@ -155,5 +143,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
+

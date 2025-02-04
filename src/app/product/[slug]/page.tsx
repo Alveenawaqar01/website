@@ -1,22 +1,25 @@
-import { Suspense } from "react";
-import { notFound } from "next/navigation";
-import { client } from "@/sanity/lib/client";
-import ProductDetails from "./ProductDetail";
+import { Suspense } from "react"
+
+import { notFound } from "next/navigation"
+import { client } from "@/sanity/lib/client"
+import ProductDetails from "./ProductDetail"
+import { urlFor } from "@/sanity/lib/image"
 
 interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  slug: string;
-  mainImage: { asset: { url: string } };  // Expecting an object with URL, not just a string
-  additionalImages: string[];
+  _id: string
+  name: string
+  price: number
+  description: string
+  mainImage: any
+  additionalImages: any[]
   category: {
-    name: string;
-    slug: string;
-  };
-  rating: number;
-  reviews: number;
+    name: string
+    slug: {
+      current: string
+    }
+  }
+  rating: number
+  reviews: number
 }
 
 async function getProduct(slug: string): Promise<Product | null> {
@@ -27,48 +30,47 @@ async function getProduct(slug: string): Promise<Product | null> {
         name,
         price,
         description,
-        "slug": slug.current,
-        "mainImage": { asset: { url: mainImage.asset->url } },  // Changed to wrap the image URL in an object
-        "additionalImages": additionalImages[].asset->url,
+        mainImage,
+        additionalImages,
         category->{
           name,
-          "slug": slug.current
+          "slug": slug
         },
         rating,
         reviews
       }`,
-      { slug }
-    );
+      { slug },
+    )
 
     if (!product) {
-      return null;
+      return null
     }
 
-    return product;
+    return product
   } catch (error) {
-    console.error("Error fetching product:", error);
-    return null;
+    console.error("Error fetching product:", error)
+    return null
   }
 }
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const product = await getProduct(params.slug);
+  const product = await getProduct(params.slug)
 
   if (!product) {
-    notFound();
+    notFound()
   }
 
   // Transform the image data for the client component
-  const transformedProduct: Product = {
+  const transformedProduct = {
     ...product,
-    mainImage: product.mainImage || { asset: { url: "/placeholder.svg" } },  // Default to placeholder if mainImage is missing
-    additionalImages: product.additionalImages || [],  // Default to empty array if additionalImages is missing
-    slug: product.slug || "", // Ensure slug is not undefined or null
-  };
+    mainImage: urlFor(product.mainImage).url(),
+    additionalImages: product.additionalImages?.map((img) => urlFor(img).url()) || [],
+  }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ProductDetails product={transformedProduct} />
     </Suspense>
-  );
+  )
 }
+

@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import toast from "react-hot-toast"
+
 import { Toaster } from "react-hot-toast"
 import { useCartStore } from "../../../store/cardstore"
 import { client } from "@/sanity/lib/client"
@@ -77,13 +78,13 @@ const FoodCards = () => {
   if (foodItems.length === 0) {
     return (
       <div className="text-center py-10">
-        No products found Please check your Sanity content and ensure you have products created
+        No products found. Please check your Sanity content and ensure you have products created.
       </div>
     )
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {foodItems.map((item) => (
         <div key={item._id} className="bg-white rounded-lg shadow-md overflow-hidden">
           <Link href={`/product/${item.slug}`}>
