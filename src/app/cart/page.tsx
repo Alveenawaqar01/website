@@ -30,7 +30,9 @@ const CartPage = () => {
   }
 
   const calculateTotal = () => {
-    return items.reduce((total, item) => total + calculateItemTotal(item.price, item._id), 0)
+    // Make sure to handle cases like NaN, and ensure we round it
+    const total = items.reduce((total, item) => total + calculateItemTotal(item.price, item._id), 0)
+    return total.toFixed(2) // Round to 2 decimal places for display
   }
 
   if (!mounted) {
@@ -41,7 +43,7 @@ const CartPage = () => {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold mb-8">Your Cart is Empty</h1>
-        <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet</p>
+        <p className="text-gray-600 mb-8">Looks like you haven&apos;t added any items to your cart yet</p> {/* Fix here */}
         <Link
           href="/"
           className="inline-block bg-blue-500 text-white px-8 py-3 rounded-md hover:bg-blue-600 transition-colors"
@@ -142,7 +144,7 @@ const CartPage = () => {
               </Link>
             </div>
             <div className="text-right">
-              <div className="text-lg font-medium text-gray-900">Total: ${calculateTotal().toFixed(2)}</div>
+              <div className="text-lg font-medium text-gray-900">Total: ${calculateTotal()}</div> {/* Display the total */}
               <Link
                 href="/checkout"
                 className="mt-2 inline-block px-8 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
