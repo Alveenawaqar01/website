@@ -83,7 +83,9 @@ const CartPage = () => {
                         />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {item.name?.replace(/'/g, '&apos;')} {/* Handle apostrophes */}
+                        </div>
                         <div className="flex items-center mt-1">
                           {[...Array(5)].map((_, index) => (
                             <Star
