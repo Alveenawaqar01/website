@@ -78,7 +78,7 @@ const FoodCards = () => {
   if (foodItems.length === 0) {
     return (
       <div className="text-center py-10">
-        No products found Please check your Sanity content and ensure you have products created
+        No products found. Please check your Sanity content and ensure you have products created.
       </div>
     )
   }
@@ -94,16 +94,25 @@ const FoodCards = () => {
           </Link>
           <div className="p-4">
             <Link href={`/product/${item.slug}`}>
-              <h3 className="text-lg font-semibold hover:text-blue-500">{item.name}</h3>
+              <h3 className="text-lg font-semibold hover:text-yellow-500">{item.name}</h3>
             </Link>
             <p className="text-gray-600 mt-1">${item.price.toFixed(2)}</p>
             <p className="text-sm text-gray-500 mt-2 line-clamp-2">{item.description}</p>
-            <button
-              onClick={() => handleAddToCart(item)}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Add to Cart
-            </button>
+            <div className="flex mt-4 space-x-2">
+              {/* Add to Cart Button */}
+              <button
+                onClick={() => handleAddToCart(item)}
+                className="px-4 py-2 bg-green-700 text-white rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Add to Cart
+              </button>
+              {/* View Details Button with stroke */}
+              <Link href={`/product/${item.slug}`}>
+                <button className="px-4 py-2 border-2 border-yellow-500 text-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  View Details
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       ))}
@@ -113,4 +122,3 @@ const FoodCards = () => {
 }
 
 export default FoodCards
-

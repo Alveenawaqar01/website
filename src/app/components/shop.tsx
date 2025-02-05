@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const categories = ['All', 'Pizza', 'Burgers', 'Desserts', 'Drinks', 'Snacks'];
@@ -73,7 +74,7 @@ const Shop = () => {
               <p className="text-gray-500">{product.details}</p>
               <div className="flex justify-between items-center mt-4">
                 <span className="text-xl font-semibold">{product.price}</span>
-                <button className="bg-black text-white py-2 px-4 rounded-lg">Add to Cart</button>
+                <Link href= "/menu" className="bg-green-500 text-white py-2 px-4 rounded-lg">Add to cart</Link>
               </div>
             </div>
           </div>

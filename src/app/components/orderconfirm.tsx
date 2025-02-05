@@ -63,7 +63,7 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ customerDetails, 
 
           <button
             onClick={onFinish}
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+            className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
           >
             Continue Shopping
           </button>

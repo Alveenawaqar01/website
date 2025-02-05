@@ -69,7 +69,7 @@ const Navbar = () => {
               )}
             </Link>
             <Link
-              href="/admin"
+              href="/"
               className="p-2 text-gray-900 hover:text-gray-900 transition"
             >
               <User className="h-6 w-6" />

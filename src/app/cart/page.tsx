@@ -147,7 +147,7 @@ const CartPage = () => {
               <div className="text-lg font-medium text-gray-900">Total: ${calculateTotal()}</div> {/* Display the total */}
               <Link
                 href="/checkout"
-                className="mt-2 inline-block px-8 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                className="mt-2 inline-block px-8 py-3 bg-green-500 text-white rounded-md hover:bg-yellow-600 transition-colors"
               >
                 Proceed to Checkout
               </Link>
