@@ -1,17 +1,25 @@
 import { Suspense } from "react"
-
 import { notFound } from "next/navigation"
 import { client } from "@/sanity/lib/client"
 import ProductDetails from "./ProductDetail"
 import { urlFor } from "@/sanity/lib/image"
 
+// Define type for the image object
+interface SanityImage {
+  _type: string
+  asset: {
+    _ref: string
+  }
+}
+
+// Define the product interface with more specific types
 interface Product {
   _id: string
   name: string
   price: number
   description: string
-  mainImage: any
-  additionalImages: any[]
+  mainImage: SanityImage // Replace 'any' with a more specific type
+  additionalImages: SanityImage[] // Replace 'any' with a more specific type (array of images)
   category: {
     name: string
     slug: {
@@ -22,6 +30,7 @@ interface Product {
   reviews: number
 }
 
+// Function to fetch product by slug
 async function getProduct(slug: string): Promise<Product | null> {
   try {
     const product = await client.fetch(
@@ -73,4 +82,3 @@ export default async function ProductPage({ params }: { params: { slug: string }
     </Suspense>
   )
 }
-
