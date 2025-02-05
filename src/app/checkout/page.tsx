@@ -7,11 +7,32 @@ import { ChevronLeft, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { useCartStore } from "../../../store/cardstore"
 
+// Define types for your data
+interface Item {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
+interface OrderDetails {
+  customerDetails: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    paymentMethod: string;
+  };
+  items: Item[];
+  total: number;
+}
+
 const CheckoutPage = () => {
   const router = useRouter()
   const { items, getTotalPrice, placeOrder } = useCartStore()
   const [showOrderConfirmation, setShowOrderConfirmation] = useState(false)
-  const [orderDetails, setOrderDetails] = useState<any>(null)
+  const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null) // Ensuring proper typing
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -33,7 +54,6 @@ const CheckoutPage = () => {
   }
 
   const subtotal = getTotalPrice()
-  const shipping = 0 // Free shipping
   const tax = subtotal * 0.1 // 10% tax
   const total = subtotal + tax
 
@@ -47,6 +67,7 @@ const CheckoutPage = () => {
       paymentMethod: formData.paymentMethod,
     }
 
+    // Ensure the order is properly placed with items and total
     const order = placeOrder(customerDetails)
     setOrderDetails(order)
     setShowOrderConfirmation(true)
@@ -61,7 +82,7 @@ const CheckoutPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {showOrderConfirmation ? (
+        {showOrderConfirmation && orderDetails ? (
           <div className="bg-white rounded-lg shadow-xl overflow-hidden max-w-md mx-auto">
             <div className="bg-green-500 p-4 text-white text-center">
               <CheckCircle className="w-12 h-12 mx-auto mb-2" />
@@ -82,7 +103,7 @@ const CheckoutPage = () => {
               <div className="space-y-2">
                 <h3 className="font-semibold">Items Ordered</h3>
                 <div className="max-h-40 overflow-y-auto space-y-2">
-                  {orderDetails.items.map((item: any) => (
+                  {orderDetails.items.map((item: Item) => (
                     <div key={item._id} className="flex justify-between text-sm">
                       <span>
                         {item.name} x {item.quantity}
@@ -211,47 +232,21 @@ const CheckoutPage = () => {
                     value={formData.address}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter your complete address"
+                    placeholder="Street address, Building, etc."
                   />
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
-                  <div className="space-y-2">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="cash"
-                        checked={formData.paymentMethod === "cash"}
-                        onChange={handleInputChange}
-                        className="mr-2"
-                      />
-                      Cash on Delivery
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="online"
-                        checked={formData.paymentMethod === "online"}
-                        onChange={handleInputChange}
-                        className="mr-2"
-                      />
-                      Online Payment
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="jazzcash"
-                        checked={formData.paymentMethod === "jazzcash"}
-                        onChange={handleInputChange}
-                        className="mr-2"
-                      />
-                      JazzCash
-                    </label>
-                  </div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Payment method</label>
+                  <select
+                    name="paymentMethod"
+                    value={formData.paymentMethod}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="cash">Cash on Delivery</option>
+                    <option value="card">Credit Card</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -311,4 +306,3 @@ const CheckoutPage = () => {
 }
 
 export default CheckoutPage
-

@@ -1,6 +1,4 @@
 "use client"
-
-
 import { useState } from "react"
 import { Trash2 } from "lucide-react"
 import { useCartStore } from "../../../../store/cardstore"
@@ -59,7 +57,7 @@ export default function ManageOrders() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={order.status}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value as any)}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value as "Pending" | "Processing" | "Shipped" | "Delivered")}
                       className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                       <option value="Pending">Pending</option>
@@ -95,4 +93,3 @@ export default function ManageOrders() {
     </div>
   )
 }
-
